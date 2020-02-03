@@ -20,6 +20,7 @@ setup(
         "Programming Language :: Python :: 3",
         "Programming Language :: Python :: 3.7",
     ],
-    packages=["colnnviewer"],
+    packages=["conllviewer"],
     install_requires=["Pillow"],
+    include_package_data=True
 )
