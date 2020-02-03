@@ -4,12 +4,21 @@ import os
 import pathlib
 
 class Fonts:
+    """
+    STORING THE LOCATION FOR FONT FILES
+    """
     DEFAULTFONT=str(os.path.join(os.path.join(pathlib.Path(__file__).parent.absolute(),"fonts"),"Exo-Medium.otf"))
     FNAMEFONT=str(os.path.join(os.path.join(pathlib.Path(__file__).parent.absolute(),"fonts"),"PRIMERB.ttf"))
     ARGFONT=str(os.path.join(os.path.join(pathlib.Path(__file__).parent.absolute(),"fonts"),"BabelSans.ttf"))
 
 class Word():
+    """
+    Word class representing each line in the conll file
+    """
     def __init__(self, line):
+        """
+        :param line: the line representing the word and its properties.
+        """
         self.contents = line.split()
         self.frame = None
         self.lex_unit = None
@@ -34,7 +43,14 @@ class Word():
 
 
 class GroupedWords(Word):
+    """
+    Words grouped together through a common tag.
+    """
     def __init__(self, word_list):
+        """
+
+        :param word_list: List of Word Objects comprising the Group Object
+        """
         self.frame = None
         self.words = word_list.sort(key=lambda w: w.sentence_id)
         self.arg = word_list[0].arg
@@ -57,6 +73,9 @@ class GroupedWords(Word):
 class Sentence():
 
     def __init__(self, sentence_block):
+        """
+        :param sentence_block: Block of conll file representing the sentence
+        """
         words = sentence_block.split("\n")
         self.words = []
         self.grouped_words = {}
@@ -91,12 +110,23 @@ class Sentence():
         self.y = 50
 
     def get_canvas_size(self, font):
+        """
+        Setting up the canvas and size calculations
+        :param font: PIL font object  to be used
+        :return: size of the canvas
+        """
         im = Image.new('RGB', (10, 10))
         size = ImageDraw.Draw(im).textsize(self.__str__(), font=font)
 
         return (size[0] + 5 * len(self.words), 200)
 
     def draw(self,def_font=Fonts.DEFAULTFONT,arg_font=Fonts.ARGFONT,frame_font=Fonts.FNAMEFONT):
+        """
+        :param def_font: Font for default words (non- frame non-arguments_
+        :param arg_font: Fonts for arguments (non-frame but a semantic part of the sentence, also used for the lexical unit representation)
+        :param frame_font: Font for representing the name of the frame at the bottom of the picture
+        :return: PIL image object
+        """
         font = ImageFont.truetype(def_font, 24)
         c_size = self.get_canvas_size(font)
         im = Image.new('RGB', c_size, color="white")
@@ -151,11 +181,19 @@ class Sentence():
 
 
 class reader():
+    """
+    Reader class representing a Conll file
+    """
     def __init__(self,file_location):
         f=open(file_location,"r").read()
         self.sentences=f.split("\n\n")[:-1]
 
     def get_sentences(self,limit=None):
+        """
+        Decompose the conll file into sentence objects
+        :param limit: Number of sentences from the PIL file to read. Read sequentially
+        :return: List of Sentence Objects
+        """
         if limit:
             sentences=self.sentences[:limit]
         else:
