@@ -6,9 +6,9 @@ HERE = pathlib.Path(__file__).parent
 README=(HERE/"README.md").read_text()
 
 setup(
-    name="ColnnViewer",
+    name="ConllViewer",
     version="1.0.0",
-    description="Visually representing a COLNN 2009 files",
+    description="Visually representing a CONLL 2009 files",
     long_description=README,
     long_description_content_type="text/markdown",
     url="https://github.com/taoprajjwal/conll-viewer/",

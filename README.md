@@ -14,7 +14,7 @@ $ pip install conllviewer
 ```python
 import conllviewer
 file=conllviewer.reader("predicted-args.conll")
-sentences=file.get_sentences()
+sentencefile.get_sentences()  
 im=sentences[0].draw()
 im.save("sentence.png")
 ```
